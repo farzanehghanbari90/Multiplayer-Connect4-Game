@@ -1,0 +1,25 @@
+{
+  "name": "multiplayer-connect4-game",
+  "version": "1.0.0",
+  "description": "A real-time Connect 4 game using Socket.io and Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "connect4",
+    "socket.io",
+    "express",
+    "multiplayer",
+    "game"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
