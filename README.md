@@ -1,4 +1,4 @@
-Project Title: Multiplayer Connect 4 Game
+Multiplayer Connect 4 Game
 
 
 Description:
