@@ -27,16 +27,6 @@ Installation Instructions:
    while additional connections become spectators.
 7. To restart the game at any time, click the "Restart Game" button on the game interface.
 
-Project Structure:
-------------------
-Multiplayer-Connect4-Game/
-├── server.js         --> Node.js server using Express and Socket.io
-├── package.json      --> Project metadata, dependencies, and start script
-└── public/
-    ├── index.html    --> Main HTML file for the game client
-    ├── script.js     --> Client-side JavaScript containing game logic
-    ├── styles.css    --> CSS file for styling the game interface
-    └── images/       --> Folder containing image assets (e.g., header.png)
 
 Key Features:
 -------------
@@ -48,7 +38,7 @@ Key Features:
   switching turns, and displaying win messages.
 - **Graceful Restart**: A "Restart Game" button resets the board and game state.
 
-Bonus: Multiple Simultaneous Games:
+Multiple Simultaneous Games:
 -----------------------------------
 This project includes code to allow **multiple game rooms** to exist at once. By creating 
 unique game IDs or room IDs, each group of players can join their own instance of the game 
