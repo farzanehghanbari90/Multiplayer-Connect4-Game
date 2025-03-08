@@ -2,21 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Ensures the page scales properly on mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connect 4</title>
+  <!-- Link to your external CSS -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Header with a game title image -->
   <div class="header">
     <img src="images/header.png" alt="Connect 4 Header" />
   </div>
   <hr />
+
+  <!-- The game board container -->
   <div class="board" id="board"></div>
+  <!-- A message area for game status -->
   <div class="message" id="message"></div>
+  <!-- A button to reset the game -->
   <button class="restart" id="restart">Restart Game</button>
 
-  <!-- Socket.io client script -->
+  <!-- Socket.io client script (works only if a Node server with socket.io is running) -->
   <script src="/socket.io/socket.io.js"></script>
+  <!-- Your game logic -->
   <script src="script.js"></script>
 </body>
 </html>
