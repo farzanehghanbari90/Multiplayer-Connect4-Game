@@ -1,14 +1,12 @@
 Project Title: Multiplayer Connect 4 Game
-Author: Your Name
-License: MIT
+
 
 Description:
 ------------
 This project is a distributed multiplayer Connect 4 game built using Node.js, Express, and Socket.io. 
 It allows two players to play Connect 4 in real time from separate client devices, 
-while additional clients join as spectators. 
-The server serves all static files (HTML, CSS, JS, images) from the "public" folder and 
-manages real-time communication between clients via Socket.io.
+while additional clients join as spectators. The server serves all static files (HTML, CSS, JS, images) 
+from the "public" folder and manages real-time communication between clients via Socket.io.
 
 Requirements:
 -------------
@@ -42,35 +40,36 @@ Multiplayer-Connect4-Game/
 
 Key Features:
 -------------
-- **Real-time Communication**: Uses Socket.io to handle events like "move" and "setName" so that 
-  the game state is updated across all connected clients.
-- **Fixed Player Slots**: The server assigns exactly one Player 1 and one Player 2; any extra 
-  connections become spectators.
-- **Game Mechanics**: The client logic (in script.js) handles dropping discs, checking for wins, 
+- **Real-time Communication**: Uses Socket.io to handle events like "move" and "setName," so 
+  the game state is updated across all connected clients in real time.
+- **Fixed Player Slots**: The server ensures exactly one Player 1 and one Player 2; 
+  extra connections become spectators.
+- **Game Mechanics**: The client logic (in `script.js`) handles dropping discs, checking for wins, 
   switching turns, and displaying win messages.
 - **Graceful Restart**: A "Restart Game" button resets the board and game state.
 
-Bonus (Optional):
------------------
-- **Multiple Simultaneous Games**: 
-  With additional code, you could implement unique game rooms by assigning a game ID or room ID 
-  to each group of players. This is not included in this version but can be added for extra credit.
+Bonus: Multiple Simultaneous Games:
+-----------------------------------
+This project includes code to allow **multiple game rooms** to exist at once. By creating 
+unique game IDs or room IDs, each group of players can join their own instance of the game 
+and play independently. The server stores separate game states for each room, enabling 
+multiple matches to proceed in parallel.  
+- For example, players can navigate to a URL like `http://localhost:3000/room/123` to start 
+  or join the room with ID `123`.
+- The server uses Socket.io “rooms” or “namespaces” to keep each match’s data separate.
 
 Troubleshooting:
 ----------------
 - If the server does not start, verify your Node.js installation by running:
-  node -v
-  and
-  npm -v
-- Ensure that all required files (index.html, script.js, styles.css, images) are in the correct 
-  folder ("public") and spelled correctly (case-sensitive).
+  `node -v` and `npm -v`
+- Ensure that all required files (index.html, script.js, styles.css, images) are in the 
+  correct folder ("public") and spelled correctly (case-sensitive).
 - Check the server log output in the terminal for any errors related to Socket.io or Express.
 - If multiple players appear as the same player, ensure you have used the updated server.js 
   code that assigns fixed slots for Player 1 and Player 2.
+- For multiple games, verify that you are using the correct URL (with the game ID) and that 
+  your server code handles separate rooms.
 
-Contact:
---------
-For any questions or suggestions regarding this project, please contact:
-[Your Email or Contact Information]
+
 
 Thank you for reviewing and using this Multiplayer Connect 4 Game!
