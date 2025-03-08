@@ -1,5 +1,21 @@
 // script.js
 
+// ---------------------- Room Setup ----------------------
+// Parse ?room= from the browser URL (e.g., ?room=abc)
+// If no room is provided, default to "default"
+function getRoomId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('room') || 'default';
+}
+
+const roomId = getRoomId();
+
+// Connect to Socket.io with the roomId passed in the query
+const socket = io({
+  query: { roomId }
+});
+
+// ---------------------- Game Variables ----------------------
 const rows = 6;
 const cols = 7;
 const board = [];
@@ -15,41 +31,36 @@ const messageElement = document.getElementById('message');
 const restartButton = document.getElementById('restart');
 
 // ---------------------- Socket.io Setup ----------------------
-const socket = io();
 
-// When server assigns your player number
+// When the server assigns your player number
 socket.on('playerAssignment', (data) => {
   myPlayer = data.player;
   if (myPlayer === 0) {
     alert("You are a spectator.");
   } else {
     alert("You are Player " + myPlayer);
-    // Ask this single user for their name
+    // Prompt the player for their name
     const chosenName = prompt("Enter your name:");
     if (chosenName) {
-      // Tell the server your name
+      // Send the chosen name to the server
       socket.emit('setName', { player: myPlayer, name: chosenName });
     }
   }
 });
 
-// Whenever the server broadcasts updated names
+// Whenever the server broadcasts updated names, update the local playerNames array
 socket.on('nameUpdate', (names) => {
-  // names is {1: "Alice", 2: "Bob"} for example
   playerNames[0] = names[1] || "Player 1";
   playerNames[1] = names[2] || "Player 2";
-
-  // Update the message in case the turn indicator changes
   messageElement.textContent = `${playerNames[currentPlayer - 1]}'s turn`;
 });
 
-// When a move arrives from the server, process it
+// When a move is received from the server, process it
 socket.on('move', (data) => {
-  // data = { col: number }
   processMove(data.col);
 });
 
-// ---------------------- Connect 4 Game Logic -----------------
+// ---------------------- Connect 4 Game Logic ----------------------
 
 function createBoard() {
   boardElement.innerHTML = '';
@@ -67,12 +78,12 @@ function createBoard() {
 }
 
 function dropDisc(col) {
-  // Only let the current player place a disc
+  // Only allow the current player to place a disc
   if (myPlayer !== currentPlayer) {
     alert("Not your turn!");
     return;
   }
-  // Send the move to the server
+  // Emit the move to the server (which will broadcast it to the room)
   socket.emit('move', { col });
 }
 
@@ -90,7 +101,7 @@ function processMove(col) {
           triggerStarAnimation();
           return;
         }
-        // Switch turn
+        // Switch turn and update the message
         currentPlayer = (currentPlayer === 1) ? 2 : 1;
         messageElement.textContent = `${playerNames[currentPlayer - 1]}'s turn`;
       });
@@ -100,7 +111,7 @@ function processMove(col) {
 }
 
 function animateDisc(row, col, callback) {
-  const cellSize = boardElement.firstChild.offsetHeight;
+  const cellSize = boardElement.firstChild ? boardElement.firstChild.offsetHeight : 50;
   const disc = document.createElement('div');
   disc.classList.add('disc');
   disc.style.backgroundColor = currentPlayer === 1 ? 'yellow' : 'red';
@@ -168,7 +179,9 @@ function triggerStarAnimation() {
   }
 }
 
-// Board click
+// ---------------------- Event Listeners ----------------------
+
+// When a cell in the board is clicked, determine which column was clicked and drop a disc there
 boardElement.addEventListener('click', (e) => {
   const col = e.target.dataset.col;
   if (col !== undefined) {
@@ -176,7 +189,7 @@ boardElement.addEventListener('click', (e) => {
   }
 });
 
-// Restart button
+// Restart button: resets the game state and re-creates the board
 restartButton.addEventListener('click', () => {
   currentPlayer = 1;
   messageElement.textContent = `${playerNames[currentPlayer - 1]}'s turn`;
@@ -185,11 +198,11 @@ restartButton.addEventListener('click', () => {
   createBoard();
 });
 
-// Initialize board on page load
+// Initialize the board and display the starting message on page load
 createBoard();
 messageElement.textContent = `${playerNames[currentPlayer - 1]}'s turn`;
 
-// Optional: star animation CSS
+// ---------------------- Optional: Inline Star Animation CSS ----------------------
 const style = document.createElement('style');
 style.textContent = `
 .star {
@@ -202,16 +215,16 @@ style.textContent = `
   animation: fall 6s linear;
   box-shadow: 0 0 13px white;
 }
-
 @keyframes fall {
-  0% {
-    transform: translateY(-100vh);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
+  0% { transform: translateY(-100vh); opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+.disc {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: top 0.5s ease-out;
 }
 `;
 document.head.appendChild(style);
