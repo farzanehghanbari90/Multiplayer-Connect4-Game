@@ -2,31 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- Ensures proper scaling on mobile devices -->
+  <!-- Ensure responsiveness on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connect 4</title>
-  <!-- Link to your external stylesheet -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Header section with game title image -->
   <div class="header">
     <img src="images/header.png" alt="Connect 4 Header" />
   </div>
   <hr />
-
-  <!-- Container for the game board -->
   <div class="board" id="board"></div>
-  <!-- Area for displaying game messages -->
   <div class="message" id="message"></div>
-  <!-- Restart button for resetting the game -->
   <button class="restart" id="restart">Restart Game</button>
 
-  <!-- Uncomment the line below if your game requires socket.io and you have a backend server running.
-       For static hosting (like GitHub Pages), remove or comment out this script. -->
-  <!-- <script src="/socket.io/socket.io.js"></script> -->
-  
-  <!-- Main game logic -->
+  <!-- Load Socket.io from the server -->
+  <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
